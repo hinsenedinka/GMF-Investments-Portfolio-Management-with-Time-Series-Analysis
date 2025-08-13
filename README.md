@@ -7,9 +7,9 @@ Total Bond Market ETF (BND), and S&P 500 ETF (SPY); to enhance customer portfoli
 performance, minimize risks, and capitalize on market opportunities. This is achieved through the
 use of YFinance Library for historical financial information extraction such as stock prices, and
 market indices; further this data undergo:
-* Preprocess and analyze to identify trends and patterns.
-* Transform and evaluate forecasting models to predict future market movements.
-* Utilize the insights to recommend changes to client portfolios that aim to optimize returns
+   - Preprocess and analyze to identify trends and patterns.
+   - Transform and evaluate forecasting models to predict future market movements.
+   - Utilize the insights to recommend changes to client portfolios that aim to optimize returns
 while managing risks.
 
 ## Project Description
