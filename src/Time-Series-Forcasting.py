@@ -171,3 +171,32 @@ plt.legend()
 plt.xticks(rotation=45, ha='right')
 plt.tight_layout()
 plt.show()
+# Assuming 'scaled' and 'model' are already defined from previous steps
+# The script uses a rolling forecast to predict 6 months (180 days) into the future
+last_60_days = scaled[-100:]
+initial_input = np.reshape(last_60_days, (1, 100, 1))
+forecast_steps = 180
+forecast_list = []
+current_input = initial_input.copy()
+
+for _ in range(forecast_steps):
+    next_step_scaled = model.predict(current_input, verbose=0)
+    forecast_list.append(next_step_scaled[0, 0])
+    current_input = np.append(current_input[:, 1:, :], next_step_scaled.reshape(1, 1, 1), axis=1)
+
+lstm_forecast_scaled = np.array(forecast_list).reshape(-1, 1)
+lstm_forecast = scaler.inverse_transform(lstm_forecast_scaled)
+
+last_date = data_close.index[-1]
+future_dates = pd.date_range(start=last_date, periods=forecast_steps + 1)[1:]
+
+plt.figure(figsize=(15, 6))
+plt.plot(data_close.index, data_close['TSLA'], label='Historical Data', color='blue')
+plt.plot(future_dates, lstm_forecast, label='LSTM Forecast', linestyle='--', color='red')
+plt.axvline(x=data_close.index[-1], color='green', linestyle='-', label='Forecast Start')
+plt.title('TSLA Stock Price Forecast for the next 6 months')
+plt.xlabel('Date')
+plt.ylabel('Stock Price')
+plt.legend()
+plt.grid(True)
+plt.show()
